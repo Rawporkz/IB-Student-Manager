@@ -1,0 +1,86 @@
+﻿@model StudentClass
+@using IB_Student_Manager.Models;
+
+@{
+	ViewData["Title"] = "AddStudent";
+
+}
+
+<h1>AddStudent</h1>
+
+<hr />
+<div class="row">
+	<div class="col">
+		<form asp-action="AddStudent">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="Name" class="control-label"></label>
+				<input asp-for="Name" class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Email" class="control-label"></label>
+				<input asp-for="Email" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Password" class="control-label"></label>
+				<input asp-for="Password" class="form-control" />
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="FormGroup" class="control-label"></label>
+				<input asp-for="FormGroup" class="form-control" />
+				<span asp-validation-for="FormGroup" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="Total" class="control-label"></label>
+				<input asp-for="Total" class="form-control" />
+				<span asp-validation-for="Total" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="DangerLevel" class="control-label"></label>
+				<input asp-for="DangerLevel" class="form-control" />
+				<span asp-validation-for="DangerLevel" class="text-danger"></span>
+			</div>
+			
+			@{
+				int x = 0;
+			}
+			<div class="text-center ">
+				<h2><b>Subject Name   SL/HL   Current Grade</b></h2>
+			</div>
+
+			<div class="text-left">
+			@foreach (Subject Subject in Model.Subjects)
+			{
+				
+					<label>Subject @(x + 1)</label>
+					<input asp-for="@Model.Subjects[x].Name" class="form-control" />
+					<input asp-for="@Model.Subjects[x].Class" class="form-control" />
+					<input asp-for="@Model.Subjects[x].Grade" class="form-control" />
+					<span asp-validation-for="Subjects" class="text-danger"></span>
+				
+				x++;
+			}
+			</div>
+
+			<div class="form-group">
+				<input type="submit" value="Add" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
