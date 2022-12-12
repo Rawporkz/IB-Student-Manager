@@ -1,7 +1,6 @@
 ﻿using IB_Student_Manager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using IB_Student_Manager.Models;
 
 namespace IB_Student_Manager.Controllers
 {
@@ -14,6 +13,7 @@ namespace IB_Student_Manager.Controllers
 		static string EndCol;
 		static int[] Rows;
 		GGSheet Sheet = new GGSheet();
+		StudentManager ManageStudents = new StudentManager();
 
 		public HomeController(ILogger<HomeController> logger)
 		{
@@ -39,10 +39,6 @@ namespace IB_Student_Manager.Controllers
 			IList<IList<Object>> Data = Sheet.LoadData(Page, FirstCol, RowNum, EndCol);
 			ViewData["Data"] = Data;
 
-
-			//sets data for array to be put into view
-			string Day = DateTime.Now.DayOfWeek.ToString();
-			ViewData["Day"] = Day;
 
 			return View();
 		}
@@ -96,13 +92,51 @@ namespace IB_Student_Manager.Controllers
 		[HttpPost]//send data from the form to server
 		public IActionResult AddStudent(StudentClass MyClass)
 		{
-			//add student to db
-
-			List<string> StudentData = MyClass.ConvertToLisOfString();
+            List<string> StudentData = MyClass.ConvertToLisOfString();
 			Sheet.SaveData(StudentData, "Student");
 
 
-			return RedirectToAction("StudentInfo");
+			return RedirectToAction("YearGroup");
+		}
+
+        [HttpGet]
+        public IActionResult DeleteStudent()
+        {
+			Page = "Student";
+			FirstCol = "A";
+			RowNum = "1";
+			EndCol = "D";
+			IList<IList<Object>> Data = Sheet.LoadData(Page, FirstCol, RowNum, EndCol);
+			ViewData["Data"] = Data;
+			return View();
+        }
+
+        [HttpPost]//send data from the form to server
+        public IActionResult DeleteStudent(int EmailRow)
+        {
+			Sheet.UpdateEntry("Student", EmailRow);
+
+
+            return RedirectToAction("YearGroup");
+        }
+
+		public IActionResult EditStudent()
+		{
+			Page = "Student";
+			FirstCol = "A";
+			RowNum = "1";
+			EndCol = "D";
+			IList<IList<Object>> Data = Sheet.LoadData(Page, FirstCol, RowNum, EndCol);
+			ViewData["Data"] = Data;
+			return View();
+		}
+
+		[HttpPost]//send data from the form to server
+		public IActionResult EditStudent(string Email)
+		{
+			StudentClass students = ManageStudents.GenerateStudent().Where(s => s.Email == Email).FirstOrDefault();
+			ViewData["Student"] = students;
+			return View("EditStudentView");
 		}
 
 	}

@@ -31,37 +31,40 @@
 		<table class="table table-hover">
 			@for (int x = 0; x < Data[0].Count; x++)
 			{
-				if(x != 2)
+				if (x != 2)
 				{
 					<th>@Data[0][x]</th>
 				}
-				
+
 			}
 
 			@for (int row = 1; row < Data.Count; row++)
 			{
-				<tr>
-					@for (int col = 0; col < Data[row].Count; col++)
-					{
-						@if (col == 0)
+				@if ((string)Data[row][0] != " ")
+				{
+					<tr>
+						@for (int col = 0; col < Data[row].Count; col++)
 						{
-							var Target = "StudentInfo/" + row;
-							<td><a href=@Target>@Data[row][col]</a></td>
-
-
-						}
-						else
-						{
-							if(col != 2)
+							@if (col == 0)
 							{
-								<td>@Data[row][col]</td>
+								var Target = "StudentInfo/" + row;
+								<td><a href=@Target>@Data[row][col]</a></td>
+
+
 							}
-							
+							else
+							{
+								if (col != 2)
+								{
+									<td>@Data[row][col]</td>
+								}
+
+							}
+
 						}
 
-					}
-
-				</tr>
+					</tr>
+				}
 			}
 
 		</table>

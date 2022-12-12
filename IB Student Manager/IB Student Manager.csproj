@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CryptoHelper" Version="3.0.2" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.57.0.2826" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
   </ItemGroup>

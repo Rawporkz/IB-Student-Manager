@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+	StudentClass student = ViewData["Student"] as StudentClass;
+
+	<div>
+		<h1>EditStudent: </h1>
+
+	</div>
+
+	<div>
+		<label>Name:</label>
+		<input type="text" id="Name" name="NameTB" value="@student.Name">
+
+	</div>
+
+	<div>
+		<label>Email:</label>
+		<input type="text" id="Email" name="EmailTB" value="@student.Email">
+	</div>
+
+	<div>
+		<label>FormGroup:</label>
+		<input type="text" id="FormGroup" name="FormGroupTB" value="@student.FormGroup">
+	</div>
+
+	<div>
+		<label>Total:</label>
+		<input type="text" id="Total" name="TotalTB" value="@student.Total">
+	</div>
+
+	<div>
+		<label>DangerLevel:</label>
+		<input type="text" id="DangerLevel" name="DangerLevelTB" value="@student.DangerLevel">
+	</div>
+
+	<div class="text-center ">
+		<h2><b>Subject Name   SL/HL   Current Grade</b></h2>
+	</div>
+
+	@for (int i = 0; i < student.Subjects.Count(); i++)
+	{
+		<div>
+			<label>Subject @i+1:</label>
+		</div>
+		<div>
+			<input type="text" id="Subject Name @i" name="SubjectName @i TB" value="@student.Subjects[i].Name">
+		</div>
+		<div>
+			<input type="text" id="Subject Level @i" name="SubjectLevel @i TB" value="@student.Subjects[i].Class">
+		</div>
+		<div>
+			<input type="text" id="Subject Grade @i" name="SubjectGrade @i TB" value="@student.Subjects[i].Grade">
+		</div>
+	}
+}

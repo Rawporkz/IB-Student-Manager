@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	IList<IList<Object>> Data = ViewData["Data"] as IList<IList<Object>>;
+	<table class="table table-hover">
+		@for (int x = 0; x < Data[0].Count; x++)
+		{
+			if (x != 2)
+			{
+				<th>@Data[0][x]</th>
+			}
+
+		}
+
+		@for (int row = 1; row < Data.Count; row++)
+		{
+			<tr>
+
+				@if ((string)Data[row][0] != " ")
+				{
+
+					@for (int col = 0; col < Data[row].Count; col++)
+					{
+						@if (col == 0)
+						{
+							var Target = "StudentInfo/" + row;
+							<td><a href=@Target>@Data[row][col]</a></td>
+
+
+						}
+						else
+						{
+							if (col != 2)
+							{
+								<td>@Data[row][col]</td>
+							}
+
+						}
+
+					}
+					<td>
+						<form asp-action="DeleteStudent">
+							<input type="text" hidden name="EmailRow" value="@row" />
+							<input type="submit" value="Delete" class="btn btn-primary" />
+						</form>
+					</td>
+
+				}
+			</tr>
+
+		}
+
+	</table>
+}

@@ -4,12 +4,17 @@
 @{
 	IList<IList<Object>> Data = ViewData["Data"] as IList<IList<Object>>;
 	int[] Pos = ViewData["Row"] as int[];
-
+	bool Found = false;
+	int row = 1;
 	<table class="table table-hover">
 
-		@if (Pos[0] == 0)
+		@while((bool)Found == false)
 		{
-			Pos[0] = 1;
+			@if ((string)Data[row][0] != " ")
+			{
+				Found = true;	
+			}
+			row++;
 		}
 		@for (int x = 0; x < Data[Pos[0]].Count; x++)
 		{
