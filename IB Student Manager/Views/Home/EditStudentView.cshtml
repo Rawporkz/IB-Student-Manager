@@ -1,58 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model StudentClass
+@using IB_Student_Manager.Models;
+
 
 @{
 	StudentClass student = ViewData["Student"] as StudentClass;
-
-	<div>
-		<h1>EditStudent: </h1>
-
-	</div>
-
-	<div>
-		<label>Name:</label>
-		<input type="text" id="Name" name="NameTB" value="@student.Name">
-
-	</div>
-
-	<div>
-		<label>Email:</label>
-		<input type="text" id="Email" name="EmailTB" value="@student.Email">
-	</div>
-
-	<div>
-		<label>FormGroup:</label>
-		<input type="text" id="FormGroup" name="FormGroupTB" value="@student.FormGroup">
-	</div>
-
-	<div>
-		<label>Total:</label>
-		<input type="text" id="Total" name="TotalTB" value="@student.Total">
-	</div>
-
-	<div>
-		<label>DangerLevel:</label>
-		<input type="text" id="DangerLevel" name="DangerLevelTB" value="@student.DangerLevel">
-	</div>
-
-	<div class="text-center ">
-		<h2><b>Subject Name   SL/HL   Current Grade</b></h2>
-	</div>
-
-	@for (int i = 0; i < student.Subjects.Count(); i++)
-	{
+	int x = 0;
+	<form asp-action="EditStudentAndSave">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 		<div>
-			<label>Subject @i+1:</label>
+			<h1>EditStudent: </h1>
 		</div>
-		<div>
-			<input type="text" id="Subject Name @i" name="SubjectName @i TB" value="@student.Subjects[i].Name">
+
+
+		<div class="form-group">
+			<label asp-for="Name" class="control-label"></label>
+			<input asp-for="Name" class="form-control" value="@student.Name" />
+			<span asp-validation-for="Name" class="text-danger"></span>
 		</div>
-		<div>
-			<input type="text" id="Subject Level @i" name="SubjectLevel @i TB" value="@student.Subjects[i].Class">
+		<div class="form-group">
+			<label asp-for="Email" class="control-label"></label>
+			<input asp-for="Email" class="form-control" value="@student.Email" />
+			<span asp-validation-for="Email" class="text-danger"></span>
 		</div>
-		<div>
-			<input type="text" id="Subject Grade @i" name="SubjectGrade @i TB" value="@student.Subjects[i].Grade">
+
+		<div class="form-group">
+			<label asp-for="FormGroup" class="control-label"></label>
+			<input asp-for="FormGroup" class="form-control" value="@student.FormGroup" />
+			<span asp-validation-for="FormGroup" class="text-danger"></span>
 		</div>
-	}
+
+		<div class="form-group">
+			<label asp-for="Total" class="control-label"></label>
+			<input asp-for="Total" class="form-control" value="@student.Total" />
+			<span asp-validation-for="Total" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="DangerLevel" class="control-label"></label>
+			<input asp-for="DangerLevel" class="form-control" value="@student.DangerLevel" />
+			<span asp-validation-for="DangerLevel" class="text-danger"></span>
+		</div>
+
+		<div class="text-center ">
+			<h2><b>Subject Name   SL/HL   Current Grade</b></h2>
+		</div>
+
+		@foreach (Subject Subject in student.Subjects)
+		{
+
+			<label>Subject @(x + 1)</label>
+			<input asp-for="@Model.Subjects[x].Name" class="form-control" value="@student.Subjects[x].Name" />
+			<input asp-for="@Model.Subjects[x].Class" class="form-control" value="@student.Subjects[x].Class" />
+			<input asp-for="@Model.Subjects[x].Grade" class="form-control" value="@student.Subjects[x].Grade"/>
+			<span asp-validation-for="Subjects" class="text-danger"></span>
+
+			x++;
+		}
+		<div class="form-group">
+			<input type="submit" value="Update" class="btn btn-primary" />
+		</div>
+	</form>
 }

@@ -1,5 +1,6 @@
 ﻿using IB_Student_Manager.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace IB_Student_Manager.Controllers
@@ -13,6 +14,7 @@ namespace IB_Student_Manager.Controllers
 		static string EndCol;
 		static int[] Rows;
 		GGSheet Sheet = new GGSheet();
+		Mailkit Mail = new Mailkit();
 		StudentManager ManageStudents = new StudentManager();
 
 		public HomeController(ILogger<HomeController> logger)
@@ -114,7 +116,7 @@ namespace IB_Student_Manager.Controllers
         [HttpPost]//send data from the form to server
         public IActionResult DeleteStudent(int EmailRow)
         {
-			Sheet.UpdateEntry("Student", EmailRow);
+			Sheet.DeleteData("Student", EmailRow);
 
 
             return RedirectToAction("YearGroup");
@@ -139,5 +141,33 @@ namespace IB_Student_Manager.Controllers
 			return View("EditStudentView");
 		}
 
+		[HttpPost]
+		public IActionResult EditStudentAndSave(StudentClass student)
+		{
+			StudentClass tempstudent = ManageStudents.GenerateStudent().Where(s => s.Email == student.Email).FirstOrDefault();
+			List<StudentClass> StudentList = ManageStudents.GenerateStudent();
+			student.Password = tempstudent.Password;
+			ManageStudents.CalcTotal(student);
+			//Get student index in the List, so it can be updated in Google Sheets 
+			int index = StudentList.FindIndex(s => s.Email.Equals(student.Email, StringComparison.Ordinal));
+
+			Console.WriteLine();
+			Sheet.UpdateData("Student",index, student);
+			//need to update in Google Sheets 
+			return RedirectToAction("YearGroup");
+		}
+
+
+		public IActionResult SendEmail()
+		{
+			return View();
+		}
+		
+		[HttpPost]
+		public IActionResult SendEmail(Email EmailInfo)
+		{
+			Mail.SendEmail(EmailInfo);
+			return View();
+		}
 	}
 }

@@ -43,5 +43,31 @@ namespace IB_Student_Manager.Models
 			}
 			return students;
 		}
+
+		public string CalcTotal(StudentClass student)
+		{
+			student.Total = Convert.ToString(0); ;
+			for (int i = 0; i < 6; i++)
+			{
+				if (student.Subjects[i].Grade != null || student.Subjects[i].Grade != " ")
+				{
+					//Validation for score inputted for each subject to make sure its within the range
+					if (Convert.ToInt32(student.Subjects[i].Grade) <= 7 && Convert.ToInt32(student.Subjects[i].Grade) >= 0)
+					{
+						try
+						{
+							student.Total = (Convert.ToInt32(student.Total) + Convert.ToInt32(student.Subjects[i].Grade)).ToString();
+						}
+						catch
+						{
+
+						}
+					}
+					
+				}
+
+			}
+			return student.Total;
+		}
 	}
 }
